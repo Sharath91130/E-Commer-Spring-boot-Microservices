@@ -1,0 +1,38 @@
+package com.ecommerce.microservice.Filter;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
+
+@Component
+@Order(1)
+public class ApiKeyGlobalFilter implements GlobalFilter {
+
+    @Value("${gateway.secret-key}")
+    private String secretKey;
+
+    public Mono<Void> filter1(ServerWebExchange exchange,
+                             GatewayFilterChain chain) {
+
+        String path = exchange.getRequest().getURI().getPath();
+
+        // Apply filter only for specific routes
+        if (path.startsWith("/user/") || path.startsWith("/order/") || path.startsWith("/product/")) {
+            String apiKey = exchange.getRequest().getHeaders().getFirst("Secret-Key");
+
+            if (apiKey == null || !apiKey.equals(secretKey)) {
+                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                return exchange.getResponse().setComplete();
+            }
+        }
+
+        return chain.filter(exchange);
+    }
+
+	
+}

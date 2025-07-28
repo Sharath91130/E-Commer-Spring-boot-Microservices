@@ -1,0 +1,5 @@
+package com.ecommerce.microservice.Entity;
+
+public class User {
+
+}

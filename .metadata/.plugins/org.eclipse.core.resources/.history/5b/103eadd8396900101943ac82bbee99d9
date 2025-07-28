@@ -1,0 +1,24 @@
+package com.ecommerce.microservice.Service;
+
+import org.springframework.stereotype.Service;
+
+import com.ecommerce.microservice.Entity.Order;
+import com.ecommerce.microservice.Repo.OrderRepo;
+
+@Service
+public class OrderService {
+	
+	
+	OrderRepo orderRepo;
+	public Order save(Order order) {
+		
+		orderRepo.save(order);
+		
+		return order;
+	}
+	public OrderService(OrderRepo orderRepo) {
+		super();
+		this.orderRepo = orderRepo;
+	}
+
+}

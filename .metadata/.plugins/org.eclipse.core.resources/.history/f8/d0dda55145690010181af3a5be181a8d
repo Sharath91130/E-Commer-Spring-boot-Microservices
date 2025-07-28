@@ -1,0 +1,35 @@
+package com.ecommerce.microservice.Service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.ecommerce.microservice.Entity.Order;
+import com.ecommerce.microservice.Repo.OrderRepo;
+
+import lombok.Data;
+
+@Service
+@Data
+public class OrderService {
+	
+	
+	OrderRepo orderRepo;
+	public Order save(Order order) {
+		
+		orderRepo.save(order);
+		
+		return order;
+	}
+	public OrderService(OrderRepo orderRepo) {
+		
+		this.orderRepo = orderRepo;
+	}
+	
+	
+	public List<Order> getByUserId(Integer id) {
+		
+		return  orderRepo.findByUserId(null)
+	}
+
+}

@@ -1,0 +1,33 @@
+package com.ecommerce.microservice.Service;
+
+import org.springframework.stereotype.Service;
+
+import com.ecommerce.microservice.Entity.Product;
+import com.ecommerce.microservice.Repo.ProductRepo;
+
+@Service
+public class ProductService {
+	
+	public ProductService(ProductRepo productRepo) {
+	
+		this.productRepo = productRepo;
+	}
+
+	ProductRepo productRepo;
+	
+	
+	
+	
+	public Product  save(Product product) {
+		return productRepo.save(product);
+		
+	}
+
+	
+	
+	public Product  get(Integer id){
+	
+		
+		return productRepo.findById(id).get();
+	}
+}

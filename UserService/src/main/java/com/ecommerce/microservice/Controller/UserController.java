@@ -1,0 +1,51 @@
+package com.ecommerce.microservice.Controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ecommerce.microservice.Entity.User;
+import com.ecommerce.microservice.Service.OrderClient;
+import com.ecommerce.microservice.Service.UserService;
+
+@RestController
+@RequestMapping("/user")
+public class UserController {
+	@Autowired
+	OrderClient client ;
+	@Autowired
+	UserService service;
+	
+	@PostMapping("/save")
+	public User  save(@RequestBody User user) {
+		
+		
+		return service.save(user);
+	}
+	
+	@GetMapping("/get/{id}")
+	public List<Map<String ,Object>> getOrderByUserId(@PathVariable Integer id){
+		
+		Map<String ,Object> ans=new HashMap<>();
+		
+		ans.put("user", service.getUser(id));
+		
+		List<Map<String, Object>> order = client.getOrderwithProducts(id);
+	
+		
+		
+		
+		order.add(ans);
+		
+		return order;
+	}
+
+}

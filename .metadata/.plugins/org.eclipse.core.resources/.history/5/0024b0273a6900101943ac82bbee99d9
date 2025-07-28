@@ -1,0 +1,11 @@
+spring.application.name=OrderService
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+
+spring.datasource.username=CUSTOMDEV
+spring.datasource.password=CUSTOMDEV123
+
+spring.datasource.url=jdbc:oracle:thin:@25.0.46.1541:FCUBTRAIN01
+
+spring.datasource.driver-class-name=oracle.jdbc.OracleDriver

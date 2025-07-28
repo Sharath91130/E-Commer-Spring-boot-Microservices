@@ -1,0 +1,5 @@
+package com.ecommerce.microservice.Repo;
+
+public interface ProductRepo {
+
+}

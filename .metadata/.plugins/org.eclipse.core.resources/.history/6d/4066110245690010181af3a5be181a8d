@@ -1,0 +1,9 @@
+package com.ecommerce.microservice.Repo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.ecommerce.microservice.Entity.Order;
+
+public interface OrderRepo extends JpaRepository<Order, Integer> {
+
+}
