@@ -15,7 +15,8 @@ public interface ProductClient {
 	
 @GetMapping("/product/get/{id}")
 	public Map<String, Object>  getProduct(@PathVariable Integer id);
-		
-	
+
+		@GetMapping("/product/getprice/{id}")
+	public Map<String, Object> getPrice(@PathVariable Integer id);
 
 }

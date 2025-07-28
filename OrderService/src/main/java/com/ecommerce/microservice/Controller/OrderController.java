@@ -36,6 +36,11 @@ public class OrderController {
 
 	@PostMapping("/save")
 	public Order save(@RequestBody Order order) {
+		Map<String, Object> product = client.getProduct(order.getProduct());
+		System.out.println(product);
+	String price=String.valueOf(product.get("price"));
+	System.out.println(price);
+	order.setAmount(Double.parseDouble(price));
 		
 		
 	orderService.save(order);
