@@ -16,8 +16,10 @@ public class PaymentController {
 	PaymentRepo paymentRepo;
 	@PostMapping("/save")
 	public Payment   savePayment(@RequestBody Payment payment) {
+		System.out.println(payment.getId());
+		Payment p= paymentRepo.save(payment);
 		
-		return paymentRepo.save(payment);
+		return p;
 	}
 
 }

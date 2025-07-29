@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.microservice.Entity.Order;
+import com.ecommerce.microservice.Entity.Payment;
 import com.ecommerce.microservice.Service.OrderService;
+import com.ecommerce.microservice.Service.PaymentClinet;
 import com.ecommerce.microservice.Service.ProductClient;
 
 import lombok.Data;
@@ -27,24 +29,32 @@ public class OrderController {
 	private final OrderService orderService;
 	private final ProductClient client;
 	
-	public OrderController(OrderService orderService, ProductClient client) {
+	private final PaymentClinet pc;
+	
+	public OrderController(OrderService orderService, ProductClient client,PaymentClinet clinet) {
 		
 		this.orderService = orderService;
 		this.client = client;
+		this.pc = clinet;
 	}
 
 
 	@PostMapping("/save")
 	public Order save(@RequestBody Order order) {
 		Map<String, Object> product = client.getProduct(order.getProduct());
-		System.out.println(product);
+		
 	String price=String.valueOf(product.get("price"));
-	System.out.println(price);
+
 	order.setAmount(Double.parseDouble(price));
 		
 		
-	orderService.save(order);
-	return order;
+	Order o=orderService.save(order);
+	Payment payment = order.getPayment();
+	payment.setOrderId(order.getOrderId());
+	payment.setAmount(o.getAmount());
+	pc.savePayment(payment);
+//)
+	return o;
 	}
 	@GetMapping("/getByUser/{id}")
 	public List<Order> getByUserId(@PathVariable  Integer id){
