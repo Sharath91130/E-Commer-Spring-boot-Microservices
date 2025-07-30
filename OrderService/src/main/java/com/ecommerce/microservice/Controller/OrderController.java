@@ -1,10 +1,9 @@
 package com.ecommerce.microservice.Controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,27 +14,31 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.microservice.Entity.Order;
 import com.ecommerce.microservice.Entity.Payment;
+
 import com.ecommerce.microservice.Service.OrderService;
 import com.ecommerce.microservice.Service.PaymentClinet;
 import com.ecommerce.microservice.Service.ProductClient;
-
-import lombok.Data;
 
 @RestController
 @RequestMapping("/order")
 
 public class OrderController {
+
 	
 	private final OrderService orderService;
 	private final ProductClient client;
 	
 	private final PaymentClinet pc;
+	@Autowired
+	private final RabbitTemplate rabbitTemplate;
 	
 	public OrderController(OrderService orderService, ProductClient client,PaymentClinet clinet) {
 		
 		this.orderService = orderService;
 		this.client = client;
 		this.pc = clinet;
+		this.rabbitTemplate = new RabbitTemplate();
+		
 	}
 
 
@@ -52,7 +55,8 @@ public class OrderController {
 	Payment payment = order.getPayment();
 	payment.setOrderId(order.getOrderId());
 	payment.setAmount(o.getAmount());
-	pc.savePayment(payment);
+//rabbitTemplate.convertAndSend(Config.EXCHANGE,Config.ROUTING_KEY,payment);
+	
 //)
 	return o;
 	}

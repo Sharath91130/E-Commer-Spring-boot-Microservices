@@ -3,6 +3,7 @@ package com.ecommerce.microservice.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Component;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Data
 @Component
-public class Payment {
+public class Payment implements Serializable{
 
    
 
